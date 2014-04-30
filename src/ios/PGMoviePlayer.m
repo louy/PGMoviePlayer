@@ -15,7 +15,6 @@
 
 - (void)init:(CDVInvokedUrlCommand*)command {
     callbackId = command.callbackId;
-//    [self sendUpdate:@{@"type":@"ready"}];
 }
 - (void)play:(CDVInvokedUrlCommand*)command {
     NSString* link = [command argumentAtIndex:0];
@@ -25,21 +24,7 @@
     [super.viewController presentMoviePlayerViewControllerAnimated:movieController];
     
     [movieController.moviePlayer play];
-    /*
-    [[NSNotificationCenter defaultCenter]
-     addObserverForName:kOCProblemEvent
-     object:streamPlayer
-     queue:[NSOperationQueue mainQueue]
-     usingBlock: ^(NSNotification *note) {
-         OCProblemEvent* p = (OCProblemEvent*)[[note userInfo] objectForKey:kOCEventKey];
-         NSLog(@"Stream unavailable (702)");
-         // handle problem event.
-         [self sendProblem:@{@"type":@"error",
-                             @"code": [@(p.errorCode) stringValue],
-                             @"message": p.message}];
-         [self closePlayer];
-     }];
-     */
+    [self sendUpdate:@{@"type":@"start",@"link":link}];
 }
 - (void)stop:(CDVInvokedUrlCommand*)command {
     if( [self closePlayer] ) {
